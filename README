@@ -1,0 +1,81 @@
+CSE 506 - Operating Systems. Fall 2015
+Homework Assignment Solution - 3.
+
+Team members
+1. Aadarsh Jajodia
+2. Shahzeb Nihalahmed Patel
+
+*OVERVIEW
+This assignment implements an asynchronous work queue manager.
+
+FILES added.
+1. hw3/sys_submitjob.c
+2. hw3/sys_submitjob.h
+3. hw3/work_item.h
+4. hw3/user_net.c
+5. hw3/xcrypt.c
+6. hw3/test_script.sh
+7. hw3/xhw3.c
+
+Description of added files.
+1.	Contains the implementation for the work queues.
+2.	System Call Related Header.
+3.	This file contains the structure declaration for work_item_node, job_types,
+	job_priority.
+4.	The Netlink socket creation and callback functions.
+5.	The code for encryption/decryption.
+6.	Running the test cases.
+7.	The user code which submits the jobs to the system call.
+
+USAGE:
+Mandatory args:
+-p ARG,		to provide the encryption/decryption key, (ARG) is the key
+-e/-d,		to encrpyt/decrypt
+infile,		the name of an input file to encrypt or decrypt
+outfile,	the output file
+-j ARG,		The job types:
+		  	1: XCRYPT
+		   	2: COMPRESSION
+		   	3: CONCATENATE_FILES
+		   	4: LIST_QUEUED_JOBS
+		   	5: CHANGE_JOB_PRIORITY
+		   	6: REMOVE_JOB
+-k ARG,		The priority of the job: Possible Values:
+	   		1: HIGH
+	   		2: MEDIUM
+	   		3: LOW
+	   		In case user wants to change job priority
+	   		this should hold the new job priority
+-c ARG,		The cipher name to be used
+-z ARG,		The job id to delete when job type is
+	   		REMOVE_JOB and job priority to change to
+	   		when job type is CHANGE_JOB_PRIORITY
+
+Usage Example - 
+1. To display help message
+./xhw3.c -h
+
+2. Encrypting the input file
+./xhw3 -j 1 -k 1 -e -p <password> <infile> <outfile>
+
+3. Decrypting the input file
+./xhw3 -j 1 -k 1 -d -p <password> <infile> <outfile>
+
+4. List the jobs in the work_item queue.
+./xhw3 -j 4
+
+5. Changing priority of a job
+./xhw3 -j 5 -z <job_id> -k <new_priority>
+
+6. To remove an exisiting job from the work_item queue.
+./xhw3 -j 6 -z <job_id>
+
+For Detailed Design on the implementation please refer to the design.pdf file.
+
+REFERENCES:
+
+http://www.makelinux.net/ldd3/chp-6-sect-2
+http://tuxthink.blogspot.ca/2011/04/wait-queues.html
+http://www.linuxjournal.com/article/7356
+http://stackoverflow.com/questions/3299386/how-to-use-netlink-socket-to-communicate-with-a-kernel-module
+http://www.utilizewindows.com/networking/basics/422-the-difference-between-unicast-multicast-and-broadcast-messages
